@@ -1,0 +1,82 @@
+//***********************************************************
+//Author.....: Jaxon Bankston
+//Assignment.: Banking System Project
+//Description: This program shows a simple user-interactive
+//             banking system
+//*********************************************************** */
+#include <iostream>
+#include <iomanip>
+#include <cassert>   // For assertions
+using namespace std;
+
+int main() {
+    double balance = 0.0;   // Start with zero balance
+    int choice;             // Menu selection
+    double amount;          // Deposit or withdrawal amount
+    bool running = true;    // Control loop
+
+    cout << fixed << setprecision(2); // Format money to 2 decimal places
+
+    while (running) {
+        // Display menu
+        cout << "\n======== BANKING SYSTEM ========\n";
+        cout << "1. Deposit Money\n";
+        cout << "2. Withdraw Money\n";
+        cout << "3. Check Balance\n";
+        cout << "4. Exit\n";
+        cout << "================================\n";
+        cout << "Choose an option: ";
+        cin >> choice;
+
+        // Handle invalid (non-numeric) input
+        if (cin.fail()) {
+            cin.clear();               // clear error flag
+            cin.ignore(1000, '\n');    // discard bad input
+            cout << "Invalid input! Please enter a number between 1 and 4." << endl;
+            continue; // restart loop
+        }
+
+        switch (choice) {
+            case 1: // Deposit
+                cout << "Enter amount to deposit: ";
+                cin >> amount;
+                if (amount > 0) {
+                    balance += amount;
+                    assert(balance >= 0); // Balance must never be negative
+                    cout << "Deposit successful! New balance: $" << balance << endl;
+                } else {
+                    cout << "Invalid amount. Deposit must be positive." << endl;
+                }
+                break;
+
+            case 2: // Withdraw
+                cout << "Enter amount to withdraw: ";
+                cin >> amount;
+                if (amount <= 0) {
+                    cout << "Invalid amount. Withdrawal must be positive." << endl;
+                } else if (amount > balance) {
+                    cout << "Insufficient funds! Withdrawal failed." << endl;
+                } else {
+                    balance -= amount;
+                    assert(balance >= 0); // Safety check
+                    cout << "Withdrawal successful! New balance: $" << balance << endl;
+                }
+                break;
+
+            case 3: // Check Balance
+                assert(balance >= 0); // Balance must always be valid
+                cout << "Your current balance is: $" << balance << endl;
+                break;
+
+            case 4: // Exit
+                cout << "Exiting the banking system. Thank you for using our service!" << endl;
+                running = false;
+                break;
+
+            default:
+                cout << "Invalid option! Please choose a valid menu option." << endl;
+        }
+    }
+
+    return 0;
+}
