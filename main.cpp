@@ -1,3 +1,9 @@
+//***********************************************************
+//Author.....: Jaxon Bankston
+//Assignment.: Banking System Project
+//Description: This program shows a simple user-interactive
+//             banking system
+//*********************************************************** */
 #include <iostream>
 #include <iomanip>
 #include <cassert>   // For assertions
@@ -21,6 +27,14 @@ int main() {
         cout << "================================\n";
         cout << "Choose an option: ";
         cin >> choice;
+
+        // Handle invalid (non-numeric) input
+        if (cin.fail()) {
+            cin.clear();               // clear error flag
+            cin.ignore(1000, '\n');    // discard bad input
+            cout << "Invalid input! Please enter a number between 1 and 4." << endl;
+            continue; // restart loop
+        }
 
         switch (choice) {
             case 1: // Deposit
